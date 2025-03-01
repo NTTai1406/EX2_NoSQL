@@ -4,7 +4,7 @@ class StudentController {
     async getAllStudents(req, res) { 
         try {
             const students = await Student.find();
-            res.render('students', { students });
+            res.status(200).json(students);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
@@ -14,7 +14,7 @@ class StudentController {
         try {
             const body = req.body;
             const newStudent = new Student(body);
-            const student = await newStudent.insertMany(body);
+            const student = await newStudent.save();
             res.status(201).json(student);
         } catch (err) {
             res.status(500).json({ message: err.message });
@@ -53,7 +53,7 @@ class StudentController {
     async getStudentById(req, res) {
         try {
             const student = await Student.findOne({ studentId: req.params.id });
-            res.render('student', { student });
+            res.status(200).json(student);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
